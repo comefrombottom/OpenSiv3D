@@ -332,6 +332,66 @@ namespace s3d
 		return Hash::FNV1a(*this);
 	}
 
+	inline constexpr Point Point3D::xy() const noexcept
+	{
+		return{ x, y };
+	}
+
+	inline constexpr Point Point3D::xz() const noexcept
+	{
+		return{ x, z };
+	}
+
+	inline constexpr Point Point3D::yx() const noexcept
+	{
+		return{ y, x };
+	}
+
+	inline constexpr Point Point3D::yz() const noexcept
+	{
+		return{ y, z };
+	}
+
+	inline constexpr Point Point3D::zx() const noexcept
+	{
+		return{ z, x };
+	}
+
+	inline constexpr Point Point3D::zy() const noexcept
+	{
+		return{ z, y };
+	}
+
+	inline constexpr Point3D Point3D::xyz() const noexcept
+	{
+		return *this;
+	}
+
+	inline constexpr Point3D Point3D::xzy() const noexcept
+	{
+		return{ x, z, y };
+	}
+
+	inline constexpr Point3D Point3D::yxz() const noexcept
+	{
+		return{ y, x, z };
+	}
+
+	inline constexpr Point3D Point3D::yzx() const noexcept
+	{
+		return{ y, z, x };
+	}
+
+	inline constexpr Point3D Point3D::zxy() const noexcept
+	{
+		return{ z, x, y };
+	}
+
+	inline constexpr Point3D Point3D::zyx() const noexcept
+	{
+		return{ z, y, x };
+	}
+
 	inline constexpr Point3D Point3D::Zero() noexcept
 	{
 		return{ 0, 0, 0 };

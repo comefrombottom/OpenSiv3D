@@ -296,6 +296,66 @@ namespace s3d
 		[[nodiscard]]
 		size_t hash() const noexcept;
 
+		/// @brief Point{ x, y } を返します。
+		/// @return Point{ x, y }
+		[[nodiscard]]
+		constexpr Point xy() const noexcept;
+
+		/// @brief Point{ x, z } を返します。
+		/// @return Point{ x, z }
+		[[nodiscard]]
+		constexpr Point xz() const noexcept;
+
+		/// @brief Point{ y, x } を返します。
+		/// @return Point{ y, x }
+		[[nodiscard]]
+		constexpr Point yx() const noexcept;
+
+		/// @brief Point{ y, z } を返します。
+		/// @return Point{ y, z }
+		[[nodiscard]]
+		constexpr Point yz() const noexcept;
+
+		/// @brief Point{ z, x } を返します。
+		/// @return Point{ z, x }
+		[[nodiscard]]
+		constexpr Point zx() const noexcept;
+
+		/// @brief Point{ z, y } を返します。
+		/// @return Point{ z, y }
+		[[nodiscard]]
+		constexpr Point zy() const noexcept;
+
+		/// @brief Point3D{ x, y, z } を返します。
+		/// @return Point3D{ x, y, z }
+		[[nodiscard]]
+		constexpr Point3D xyz() const noexcept;
+
+		/// @brief Point3D{ x, z, y } を返します。
+		/// @return Point3D{ x, z, y }
+		[[nodiscard]]
+		constexpr Point3D xzy() const noexcept;
+
+		/// @brief Point3D{ y, x, z } を返します。
+		/// @return Point3D{ y, x, z }
+		[[nodiscard]]
+		constexpr Point3D yxz() const noexcept;
+
+		/// @brief Point3D{ y, z, x } を返します。
+		/// @return Point3D{ y, z, x }
+		[[nodiscard]]
+		constexpr Point3D yzx() const noexcept;
+
+		/// @brief Point3D{ z, x, y } を返します。
+		/// @return Point3D{ z, x, y }
+		[[nodiscard]]
+		constexpr Point3D zxy() const noexcept;
+
+		/// @brief Point3D{ z, y, x } を返します。
+		/// @return Point3D{ z, y, x }
+		[[nodiscard]]
+		constexpr Point3D zyx() const noexcept;
+
 		/// @brief Point3D{ 0, 0, 0 } を返します。
 		/// @return Point3D{ 0, 0, 0 }
 		[[nodiscard]]
