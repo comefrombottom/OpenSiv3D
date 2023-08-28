@@ -1702,6 +1702,14 @@
 // 下線のスタイル | Underline style
 # include <Siv3D/UnderlineStyle.hpp>
 
+# include <Siv3D/UI1/UIFwd.hpp>
+
+# include <Siv3D/UI1/Padding.hpp>
+
+# include <Siv3D/UI1/Margin.hpp>
+
+# include <Siv3D/UI1/BoxShadow.hpp>
+
 //////////////////////////////////////////////////
 //
 //	エフェクト | Effect

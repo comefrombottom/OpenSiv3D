@@ -1687,6 +1687,12 @@
     <Filter Include="src\Siv3D\Point3D">
       <UniqueIdentifier>{7475d1f5-470c-48e0-97be-fc0ba50bf46b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\Siv3D\UI1">
+      <UniqueIdentifier>{d389e1ee-642b-4382-b7b0-b30a1273cdcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Siv3D\UI1\detail">
+      <UniqueIdentifier>{5771bee8-2e59-48df-94d3-c27ece409367}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Siv3D\include\Siv3D.hpp">
@@ -7100,6 +7106,21 @@
     </ClInclude>
     <ClInclude Include="..\Siv3D\include\Siv3D\detail\Point3D.ipp">
       <Filter>include\Siv3D\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Siv3D\include\Siv3D\UI1\Margin.hpp">
+      <Filter>include\Siv3D\UI1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Siv3D\include\Siv3D\UI1\Padding.hpp">
+      <Filter>include\Siv3D\UI1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Siv3D\include\Siv3D\UI1\BoxShadow.hpp">
+      <Filter>include\Siv3D\UI1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Siv3D\include\Siv3D\UI1\detail\Padding.ipp">
+      <Filter>include\Siv3D\UI1\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Siv3D\include\Siv3D\UI1\UIFwd.hpp">
+      <Filter>include\Siv3D\UI1</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
