@@ -11,20 +11,24 @@
 
 # pragma once
 # include "../Common.hpp"
+# include "../String.hpp"
+# include "UIElement.hpp"
 
 namespace s3d
 {
 	inline namespace UI1
 	{
-		struct Padding;
-		struct Margin;
-		struct BoxShadow;
-		class UICanvas;
-		class UIElement;
 		using UIContainerName = String;
 		using UIContainerNameView = StringView;
-		class UIContainer;
-		class UIPanel;
-		class UIWindow;
+
+		class UIContainer : public UIElement, public std::enable_shared_from_this<UIContainer>
+		{
+		public:
+
+			const UIContainerName& name() const noexcept;
+
+		private:
+
+		};
 	}
 }

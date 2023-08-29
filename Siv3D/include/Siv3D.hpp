@@ -1710,6 +1710,12 @@
 
 # include <Siv3D/UI1/BoxShadow.hpp>
 
+# include <Siv3D/UI1/UICanvas.hpp>
+
+# include <Siv3D/UI1/UIElement.hpp>
+
+# include <Siv3D/UI1/UIContainer.hpp>
+
 //////////////////////////////////////////////////
 //
 //	エフェクト | Effect

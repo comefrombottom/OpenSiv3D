@@ -1,0 +1,221 @@
+﻿//-----------------------------------------------
+//
+//	This file is part of the Siv3D Engine.
+//
+//	Copyright (c) 2008-2023 Ryo Suzuki
+//	Copyright (c) 2016-2023 OpenSiv3D Project
+//
+//	Licensed under the MIT License.
+//
+//-----------------------------------------------
+
+# include <Siv3D/Error.hpp>
+# include <Siv3D/UI1/UIContainer.hpp>
+# include "UICanvasDetail.hpp"
+
+namespace s3d
+{
+	namespace UI1
+	{
+		void UICanvas::UICanvasDetail::update()
+		{
+
+		}
+
+		void UICanvas::UICanvasDetail::draw() const
+		{
+
+		}
+
+		void UICanvas::UICanvasDetail::drawDebug() const
+		{
+
+		}
+
+		UIContainer& UICanvas::UICanvasDetail::addContainer(const std::shared_ptr<UIContainer>& container)
+		{
+			const UIContainerName& name = container->name();
+
+			if (m_table.contains(name))
+			{
+				throw Error{ U"UICanvas::addContainer(): UIContainer `{}` already exists"_fmt(name) };
+			}
+
+			m_containers.push_back(container);
+			m_table.emplace(name, container);
+
+			return *container;
+		}
+
+		void UICanvas::UICanvasDetail::removeContainer(const UIContainerNameView name)
+		{
+			const auto it = m_table.find(name);
+
+			if (it == m_table.end())
+			{
+				return;
+			}
+
+			m_containers.remove(it->second);
+			m_table.erase(it); // ここで it は無効になる
+		}
+
+		void UICanvas::UICanvasDetail::clear()
+		{
+			m_containers.clear();
+			m_table.clear();
+		}
+
+		bool UICanvas::UICanvasDetail::isEmpty() const noexcept
+		{
+			return m_containers.isEmpty();
+		}
+
+		size_t UICanvas::UICanvasDetail::num_containers() const noexcept
+		{
+			return m_containers.size();
+		}
+
+		bool UICanvas::UICanvasDetail::hasContainer(const UIContainerNameView name) const noexcept
+		{
+			return m_table.contains(name);
+		}
+
+		UIContainer* UICanvas::UICanvasDetail::find(const UIContainerNameView name) const noexcept
+		{
+			const auto it = m_table.find(name);
+
+			if (it == m_table.end())
+			{
+				return nullptr;
+			}
+
+			return it->second.get();
+		}
+
+		UIContainer* UICanvas::UICanvasDetail::findTopmost() const noexcept
+		{
+			if (m_containers.isEmpty())
+			{
+				return nullptr;
+			}
+
+			return m_containers.back().get();
+		}
+
+		UIContainer* UICanvas::UICanvasDetail::findBottommost() const noexcept
+		{
+			if (m_containers.isEmpty())
+			{
+				return nullptr;
+			}
+
+			return m_containers.front().get();
+		}
+
+		Array<UIContainer*> UICanvas::UICanvasDetail::findByAttribute(const StringView attribute, const StringView value) const
+		{
+			return{};
+		}
+
+		UIContainer* UICanvas::UICanvasDetail::findFromPoint(const Vec2& pos) const noexcept
+		{
+			return(nullptr);
+		}
+
+		void UICanvas::UICanvasDetail::moveToTopmost(const UIContainerNameView name)
+		{
+			const auto it = m_table.find(name);
+
+			if (it == m_table.end())
+			{
+				return;
+			}
+
+			const std::shared_ptr<UIContainer> pContainer = it->second;
+			m_containers.remove(pContainer);
+			m_containers.push_back(pContainer);
+		}
+
+		void UICanvas::UICanvasDetail::moveUpward(const UIContainerNameView name) noexcept
+		{
+			if (m_containers.size() < 2)
+			{
+				return;
+			}
+
+			const auto it = m_table.find(name);
+
+			if (it == m_table.end())
+			{
+				return;
+			}
+
+			const std::shared_ptr<UIContainer> pContainer = it->second;
+			const auto it2 = std::find(m_containers.begin(), m_containers.end(), pContainer);
+
+			assert(it2 != m_containers.end());
+
+			if (it2 == m_containers.begin())
+			{
+				return;
+			}
+
+			std::iter_swap(it2, std::prev(it2));
+		}
+
+		void UICanvas::UICanvasDetail::moveToBottommost(const UIContainerNameView name)
+		{
+			const auto it = m_table.find(name);
+
+			if (it == m_table.end())
+			{
+				return;
+			}
+
+			const std::shared_ptr<UIContainer> pContainer = it->second;
+			m_containers.remove(pContainer);
+			m_containers.push_front(pContainer);
+		}
+
+		void UICanvas::UICanvasDetail::moveDownward(const UIContainerNameView name) noexcept
+		{
+			if (m_containers.size() < 2)
+			{
+				return;
+			}
+
+			const auto it = m_table.find(name);
+
+			if (it == m_table.end())
+			{
+				return;
+			}
+
+			const std::shared_ptr<UIContainer> pContainer = it->second;
+			const auto it2 = std::find(m_containers.begin(), m_containers.end(), pContainer);
+
+			assert(it2 != m_containers.end());
+
+			if (it2 == std::prev(m_containers.end()))
+			{
+				return;
+			}
+
+			std::iter_swap(it2, std::next(it2));
+		}
+
+		String UICanvas::UICanvasDetail::dumpDebugInfo() const
+		{
+			String result;
+
+			for (const auto& container : m_containers)
+			{
+				result += container->name();
+				result.push_back(U'\n');
+			}
+
+			return result;
+		}
+	}
+}

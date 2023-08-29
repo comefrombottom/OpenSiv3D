@@ -1693,6 +1693,9 @@
     <Filter Include="include\Siv3D\UI1\detail">
       <UniqueIdentifier>{5771bee8-2e59-48df-94d3-c27ece409367}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Siv3D\UI1">
+      <UniqueIdentifier>{e5251e87-56a4-4d5a-a155-f43029dc178e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Siv3D\include\Siv3D.hpp">
@@ -7122,6 +7125,18 @@
     <ClInclude Include="..\Siv3D\include\Siv3D\UI1\UIFwd.hpp">
       <Filter>include\Siv3D\UI1</Filter>
     </ClInclude>
+    <ClInclude Include="..\Siv3D\include\Siv3D\UI1\UICanvas.hpp">
+      <Filter>include\Siv3D\UI1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Siv3D\src\Siv3D\UI1\UICanvasDetail.hpp">
+      <Filter>src\Siv3D\UI1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Siv3D\include\Siv3D\UI1\UIContainer.hpp">
+      <Filter>include\Siv3D\UI1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Siv3D\include\Siv3D\UI1\UIElement.hpp">
+      <Filter>include\Siv3D\UI1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Siv3D\src\Siv3D\Common\Siv3DEngine.cpp">
@@ -10333,6 +10348,12 @@
     </ClCompile>
     <ClCompile Include="..\Siv3D\src\Siv3D\Point3D\SivPoint3D.cpp">
       <Filter>src\Siv3D\Point3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Siv3D\src\Siv3D\UI1\SivUICanvas.cpp">
+      <Filter>src\Siv3D\UI1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Siv3D\src\Siv3D\UI1\UICanvasDetail.cpp">
+      <Filter>src\Siv3D\UI1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
