@@ -10,6 +10,7 @@
 //-----------------------------------------------
 
 # include <Siv3D/UI1/UICanvas.hpp>
+# include <Siv3D/UI1/UIContainer.hpp>
 # include "UICanvasDetail.hpp"
 
 namespace s3d
@@ -59,6 +60,11 @@ namespace s3d
 			return pImpl->num_containers();
 		}
 
+		const Array<std::shared_ptr<UIContainer>>& UICanvas::containers() const noexcept
+		{
+			return pImpl->containers();
+		}
+
 		bool UICanvas::hasContainer(const UIContainerNameView name) const noexcept
 		{
 			return pImpl->hasContainer(name);
@@ -79,15 +85,15 @@ namespace s3d
 			return pImpl->findBottommost();
 		}
 
-		Array<UIContainer*> UICanvas::findByAttribute(const StringView attribute, const StringView value) const
-		{
-			return pImpl->findByAttribute(attribute, value);
-		}
+		//Array<UIContainer*> UICanvas::findByAttribute(const StringView attribute, const StringView value) const
+		//{
+		//	return pImpl->findByAttribute(attribute, value);
+		//}
 
-		UIContainer* UICanvas::findFromPoint(const Vec2& pos) const noexcept
-		{
-			return pImpl->findFromPoint(pos);
-		}
+		//UIContainer* UICanvas::findFromPoint(const Vec2& pos) const noexcept
+		//{
+		//	return pImpl->findFromPoint(pos);
+		//}
 
 		void UICanvas::moveToTopmost(const UIContainerNameView name)
 		{

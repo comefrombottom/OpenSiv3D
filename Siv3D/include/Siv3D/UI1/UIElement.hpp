@@ -19,6 +19,9 @@ namespace s3d
 {
 	inline namespace UI1
 	{
+		using UIElementName = String;
+		using UIElementNameView = StringView;
+
 		class UIElement
 		{
 		public:
@@ -61,8 +64,28 @@ namespace s3d
 			[[nodiscard]]
 			std::shared_ptr<UIContainer> getParentContainer() const;
 
+		protected:
+
+			virtual bool onUpdate(bool cursorCapturable);
+
+			/// @brief UI 要素の描画処理を記述します。
+			virtual void onDraw() const;
+
+			/// @brief UI 要素のオーバーレイ描画処理を記述します。
+			virtual void onDrawOverlay() const;
+
+			/// @brief UI 要素のデバッグ描画処理を記述します。
+			virtual void onDrawDebug() const;
+
 		private:
 
+			std::weak_ptr<UIContainer> m_parentContainer;
+
+			bool m_enabled = true;
+
+			bool m_hasMouseCapture = false;
+
+			bool m_hovered = false;
 		};
 	}
 }

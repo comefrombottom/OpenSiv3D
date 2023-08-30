@@ -79,12 +79,12 @@ namespace s3d
 			};
 		}
 
-		inline constexpr Padding Zero() noexcept
+		inline constexpr Padding Padding::Zero() noexcept
 		{
 			return{ 0, 0, 0, 0 };
 		}
 
-		inline constexpr Padding All(const double value) noexcept
+		inline constexpr Padding Padding::All(const double value) noexcept
 		{
 			return{ value, value, value, value };
 		}

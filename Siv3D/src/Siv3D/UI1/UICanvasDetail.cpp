@@ -10,6 +10,8 @@
 //-----------------------------------------------
 
 # include <Siv3D/Error.hpp>
+# include <Siv3D/Cursor.hpp>
+# include <Siv3D/Optional.hpp>
 # include <Siv3D/UI1/UIContainer.hpp>
 # include "UICanvasDetail.hpp"
 
@@ -19,17 +21,46 @@ namespace s3d
 	{
 		void UICanvas::UICanvasDetail::update()
 		{
+			bool cursorCapturable = true;
 
+			Optional<UIContainerName> topmostContainerName;
+
+			for (auto& container : updatableView())
+			{
+				const bool oldMouseCapture = Cursor::IsCaptured();
+
+				if (container->update(cursorCapturable && (not oldMouseCapture)))
+				{
+					cursorCapturable = false;
+				}
+
+				if (const bool touched = (not oldMouseCapture && Cursor::IsCaptured()))
+				{
+					topmostContainerName = container->name();
+				}
+			}
+
+			if (topmostContainerName)
+			{
+				moveToTopmost(*topmostContainerName);
+			}
 		}
 
 		void UICanvas::UICanvasDetail::draw() const
 		{
-
+			for (const auto& container : drawableView())
+			{
+				container->draw();
+				container->drawOverlay();
+			}
 		}
 
 		void UICanvas::UICanvasDetail::drawDebug() const
 		{
-
+			for (const auto& container : drawableView())
+			{
+				container->drawDebug();
+			}
 		}
 
 		UIContainer& UICanvas::UICanvasDetail::addContainer(const std::shared_ptr<UIContainer>& container)
@@ -76,6 +107,11 @@ namespace s3d
 			return m_containers.size();
 		}
 
+		const Array<std::shared_ptr<UIContainer>>& UICanvas::UICanvasDetail::containers() const noexcept
+		{
+			return m_containers;
+		}
+
 		bool UICanvas::UICanvasDetail::hasContainer(const UIContainerNameView name) const noexcept
 		{
 			return m_table.contains(name);
@@ -113,15 +149,15 @@ namespace s3d
 			return m_containers.front().get();
 		}
 
-		Array<UIContainer*> UICanvas::UICanvasDetail::findByAttribute(const StringView attribute, const StringView value) const
-		{
-			return{};
-		}
+		//Array<UIContainer*> UICanvas::UICanvasDetail::findByAttribute(const StringView attribute, const StringView value) const
+		//{
+		//	return{};
+		//}
 
-		UIContainer* UICanvas::UICanvasDetail::findFromPoint(const Vec2& pos) const noexcept
-		{
-			return(nullptr);
-		}
+		//UIContainer* UICanvas::UICanvasDetail::findFromPoint(const Vec2& pos) const noexcept
+		//{
+		//	return(nullptr);
+		//}
 
 		void UICanvas::UICanvasDetail::moveToTopmost(const UIContainerNameView name)
 		{
@@ -216,6 +252,16 @@ namespace s3d
 			}
 
 			return result;
+		}
+
+		bool UICanvas::UICanvasDetail::IsContainerEnabled(const std::shared_ptr<UIContainer>& c) noexcept
+		{
+			return c->isEnabled();
+		}
+
+		bool UICanvas::UICanvasDetail::IsContainerShown(const std::shared_ptr<UIContainer>& c) noexcept
+		{
+			return c->isShown();
 		}
 	}
 }

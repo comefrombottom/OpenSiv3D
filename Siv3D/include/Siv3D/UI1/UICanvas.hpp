@@ -57,6 +57,11 @@ namespace s3d
 			[[nodiscard]]
 			size_t num_containers() const noexcept;
 
+			/// @brief 保持する UI コンテナの配列への参照を返します。
+			/// @return 保持する UI コンテナの配列への参照
+			[[nodiscard]]
+			const Array<std::shared_ptr<UIContainer>>& containers() const noexcept;
+
 			/// @brief 指定した名前の UI コンテナが存在するかを返します。
 			/// @param name UI コンテナの名前
 			/// @return 指定した名前の UI コンテナが存在する場合 true, それ以外の場合は false
@@ -79,18 +84,18 @@ namespace s3d
 			[[nodiscard]]
 			UIContainer* findBottommost() const noexcept;
 
-			/// @brief 指定した属性と値を持つ UI コンテナを返します。
-			/// @param attribute 属性
-			/// @param value 値
-			/// @return 指定した属性と値を持つ UI コンテナへのポインタの配列、見つからなかった場合は空の配列
-			[[nodiscard]]
-			Array<UIContainer*> findByAttribute(StringView attribute, StringView value) const;
+			///// @brief 指定した属性と値を持つ UI コンテナを返します。
+			///// @param attribute 属性
+			///// @param value 値
+			///// @return 指定した属性と値を持つ UI コンテナへのポインタの配列、見つからなかった場合は空の配列
+			//[[nodiscard]]
+			//Array<UIContainer*> findByAttribute(StringView attribute, StringView value) const;
 
-			/// @brief 指定した座標の最前面にある UI コンテナを返します。
-			/// @param pos 座標
-			/// @return 指定した座標の最前面にある UI コンテナへのポインタ、見つからなかった場合は nullptr
-			[[nodiscard]]
-			UIContainer* findFromPoint(const Vec2& pos) const noexcept;
+			///// @brief 指定した座標の最前面にある UI コンテナを返します。
+			///// @param pos 座標
+			///// @return 指定した座標の最前面にある UI コンテナへのポインタ、見つからなかった場合は nullptr
+			//[[nodiscard]]
+			//UIContainer* findFromPoint(const Vec2& pos) const noexcept;
 
 			/// @brief 指定した名前の UI コンテナを最前面に移動します。
 			/// @param name UI コンテナの名前
@@ -116,6 +121,8 @@ namespace s3d
 		private:
 
 			class UICanvasDetail;
+
+			friend class UIContainer;
 
 			std::shared_ptr<UICanvasDetail> pImpl;
 		};

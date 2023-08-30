@@ -12,6 +12,7 @@
 # pragma once
 # include <Siv3D/UI1/UICanvas.hpp>
 # include <Siv3D/HashTable.hpp>
+# include "UIUtility.hpp"
 
 namespace s3d
 {
@@ -42,6 +43,25 @@ namespace s3d
 			size_t num_containers() const noexcept;
 
 			[[nodiscard]]
+			const Array<std::shared_ptr<UIContainer>>& containers() const noexcept;
+
+			/// @brief 更新可能な UI コンテナのビューを返します。
+			/// @return 更新可能な UI コンテナのビュー
+			[[nodiscard]]
+			auto updatableView() const noexcept
+			{
+				return FilterReverseView{ containers(), IsContainerEnabled };
+			}
+
+			/// @brief 描画可能な UI コンテナのビューを返します。
+			/// @return 描画可能な UI コンテナのビュー
+			[[nodiscard]]
+			auto drawableView() const noexcept
+			{
+				return FilterView{ containers(), IsContainerShown };
+			}
+
+			[[nodiscard]]
 			bool hasContainer(UIContainerNameView name) const noexcept;
 
 			[[nodiscard]]
@@ -53,11 +73,11 @@ namespace s3d
 			[[nodiscard]]
 			UIContainer* findBottommost() const noexcept;
 
-			[[nodiscard]]
-			Array<UIContainer*> findByAttribute(StringView attribute, StringView value) const;
+			//[[nodiscard]]
+			//Array<UIContainer*> findByAttribute(StringView attribute, StringView value) const;
 
-			[[nodiscard]]
-			UIContainer* findFromPoint(const Vec2& pos) const noexcept;
+			//[[nodiscard]]
+			//UIContainer* findFromPoint(const Vec2& pos) const noexcept;
 
 			void moveToTopmost(UIContainerNameView name);
 
@@ -76,6 +96,10 @@ namespace s3d
 			Array<std::shared_ptr<UIContainer>> m_containers;
 
 			HashTable<UIContainerName, std::shared_ptr<UIContainer>> m_table;
+
+			static bool IsContainerEnabled(const std::shared_ptr<UIContainer>& c) noexcept;
+
+			static bool IsContainerShown(const std::shared_ptr<UIContainer>& c) noexcept;
 		};
 	}
 }
