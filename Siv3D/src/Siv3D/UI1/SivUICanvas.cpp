@@ -70,19 +70,19 @@ namespace s3d
 			return pImpl->hasContainer(name);
 		}
 
-		UIContainer* UICanvas::find(const UIContainerNameView name) const noexcept
+		UIContainer* UICanvas::findContainer(const UIContainerNameView name) const noexcept
 		{
-			return pImpl->find(name);
+			return pImpl->findContainer(name);
 		}
 
-		UIContainer* UICanvas::findTopmost() const noexcept
+		UIContainer* UICanvas::findTopmostContainer() const noexcept
 		{
-			return pImpl->findTopmost();
+			return pImpl->findTopmostContainer();
 		}
 
-		UIContainer* UICanvas::findBottommost() const noexcept
+		UIContainer* UICanvas::findBottommostContainer() const noexcept
 		{
-			return pImpl->findBottommost();
+			return pImpl->findBottommostContainer();
 		}
 
 		//Array<UIContainer*> UICanvas::findByAttribute(const StringView attribute, const StringView value) const

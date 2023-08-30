@@ -72,17 +72,17 @@ namespace s3d
 			/// @param name UI コンテナの名前
 			/// @return 指定した名前の UI コンテナへのポインタ、見つからなかった場合は nullptr
 			[[nodiscard]]
-			UIContainer* find(UIContainerNameView name) const noexcept;
+			UIContainer* findContainer(UIContainerNameView name) const noexcept;
 
 			/// @brief 最前面にある UI コンテナを返します。
 			/// @return 最前面にある UI コンテナへのポインタ、保持する UI コンテナがない場合は nullptr
 			[[nodiscard]]
-			UIContainer* findTopmost() const noexcept;
+			UIContainer* findTopmostContainer() const noexcept;
 
 			/// @brief 最背面にある UI コンテナを返します。
 			/// @return 最背面にある UI コンテナへのポインタ、保持する UI コンテナがない場合は nullptr
 			[[nodiscard]]
-			UIContainer* findBottommost() const noexcept;
+			UIContainer* findBottommostContainer() const noexcept;
 
 			///// @brief 指定した属性と値を持つ UI コンテナを返します。
 			///// @param attribute 属性

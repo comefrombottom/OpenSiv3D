@@ -117,7 +117,7 @@ namespace s3d
 			return m_table.contains(name);
 		}
 
-		UIContainer* UICanvas::UICanvasDetail::find(const UIContainerNameView name) const noexcept
+		UIContainer* UICanvas::UICanvasDetail::findContainer(const UIContainerNameView name) const noexcept
 		{
 			const auto it = m_table.find(name);
 
@@ -129,7 +129,7 @@ namespace s3d
 			return it->second.get();
 		}
 
-		UIContainer* UICanvas::UICanvasDetail::findTopmost() const noexcept
+		UIContainer* UICanvas::UICanvasDetail::findTopmostContainer() const noexcept
 		{
 			if (m_containers.isEmpty())
 			{
@@ -139,7 +139,7 @@ namespace s3d
 			return m_containers.back().get();
 		}
 
-		UIContainer* UICanvas::UICanvasDetail::findBottommost() const noexcept
+		UIContainer* UICanvas::UICanvasDetail::findBottommostContainer() const noexcept
 		{
 			if (m_containers.isEmpty())
 			{
@@ -245,23 +245,23 @@ namespace s3d
 		{
 			String result;
 
-			for (const auto& container : m_containers)
+			for (auto it = m_containers.rbegin(); it != m_containers.rend(); ++it)
 			{
-				result += container->name();
+				result += (*it)->dumpDebugInfo();
 				result.push_back(U'\n');
 			}
 
 			return result;
 		}
 
-		bool UICanvas::UICanvasDetail::IsContainerEnabled(const std::shared_ptr<UIContainer>& c) noexcept
+		bool UICanvas::UICanvasDetail::ShouldUpdate(const std::shared_ptr<UIContainer>& c) noexcept
 		{
-			return c->isEnabled();
+			return c->shouldUpdate();
 		}
 
-		bool UICanvas::UICanvasDetail::IsContainerShown(const std::shared_ptr<UIContainer>& c) noexcept
+		bool UICanvas::UICanvasDetail::ShouldDraw(const std::shared_ptr<UIContainer>& c) noexcept
 		{
-			return c->isShown();
+			return c->shouldDraw();
 		}
 	}
 }

@@ -7143,6 +7143,9 @@
     <ClInclude Include="..\Siv3D\src\Siv3D\UI1\UIUtility.hpp">
       <Filter>src\Siv3D\UI1</Filter>
     </ClInclude>
+    <ClInclude Include="..\Siv3D\include\Siv3D\UI1\UIPanel.hpp">
+      <Filter>include\Siv3D\UI1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Siv3D\src\Siv3D\Common\Siv3DEngine.cpp">
@@ -10365,6 +10368,9 @@
       <Filter>src\Siv3D\UI1</Filter>
     </ClCompile>
     <ClCompile Include="..\Siv3D\src\Siv3D\UI1\SivUIContainer.cpp">
+      <Filter>src\Siv3D\UI1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Siv3D\src\Siv3D\UI1\SivUIPanel.cpp">
       <Filter>src\Siv3D\UI1</Filter>
     </ClCompile>
   </ItemGroup>

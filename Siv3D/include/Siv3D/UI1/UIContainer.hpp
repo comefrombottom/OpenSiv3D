@@ -37,6 +37,11 @@ namespace s3d
 			[[nodiscard]]
 			const UIContainerName& name() const noexcept;
 
+			/// @brief UI コンテナの種類を返します。
+			/// @return UI コンテナの種類
+			[[nodiscard]]
+			virtual StringView type() const noexcept = 0;
+
 			/// @brief UI コンテナの領域（ピクセル）を返します。
 			/// @return UI コンテナの領域（ピクセル）
 			[[nodiscard]]
@@ -48,6 +53,12 @@ namespace s3d
 
 			/// @brief UI コンテナを非表示状態にします。
 			virtual void hide();
+
+			[[nodiscard]]
+			virtual bool shouldUpdate() const noexcept;
+
+			[[nodiscard]]
+			virtual bool shouldDraw() const noexcept;
 
 			/// @brief UI コンテナが表示状態であるかを返します。
 			/// @return UI コンテナが表示状態である場合 true, それ以外の場合は false
@@ -71,6 +82,9 @@ namespace s3d
 			virtual UIContainer& add(UIElementNameView name, const std::shared_ptr<UIElement>& element);
 
 			UIContainer& _setRoot(const std::shared_ptr<UICanvas::UICanvasDetail>& pCanvas);
+
+			[[nodiscard]]
+			String dumpDebugInfo() const;
 
 		protected:
 

@@ -9,6 +9,7 @@
 //
 //-----------------------------------------------
 
+# include <Siv3D/2DShapes.hpp>
 # include <Siv3D/UI1/UIContainer.hpp>
 
 namespace s3d
@@ -31,6 +32,16 @@ namespace s3d
 		void UIContainer::hide()
 		{
 			m_shown = false;
+		}
+
+		bool UIContainer::shouldUpdate() const noexcept
+		{
+			return isEnabled();
+		}
+
+		bool UIContainer::shouldDraw() const noexcept
+		{
+			return isShown();
 		}
 
 		bool UIContainer::isShown() const noexcept
@@ -59,6 +70,33 @@ namespace s3d
 		{
 			m_pCanvas = pCanvas;
 			return *this;
+		}
+
+		String UIContainer::dumpDebugInfo() const
+		{
+			String result = U"{} ({}) {} "_fmt(m_name, type(), getBounds());
+
+			if (shouldUpdate())
+			{
+				result += U"[update]";
+			}
+
+			if (shouldDraw())
+			{
+				result += U"[draw]";
+			}
+
+			if (not isShown())
+			{
+				result += U"[hidden]";
+			}
+
+			if (not isEnabled())
+			{
+				result += U"[disabled]";
+			}
+
+			return result;
 		}
 	}
 }

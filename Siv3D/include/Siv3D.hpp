@@ -1716,6 +1716,8 @@
 
 # include <Siv3D/UI1/UIContainer.hpp>
 
+# include <Siv3D/UI1/UIPanel.hpp>
+
 //////////////////////////////////////////////////
 //
 //	エフェクト | Effect

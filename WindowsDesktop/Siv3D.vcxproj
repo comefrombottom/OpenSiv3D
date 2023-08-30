@@ -761,6 +761,7 @@
     <ClInclude Include="..\Siv3D\include\Siv3D\UI1\UIContainer.hpp" />
     <ClInclude Include="..\Siv3D\include\Siv3D\UI1\UIElement.hpp" />
     <ClInclude Include="..\Siv3D\include\Siv3D\UI1\UIFwd.hpp" />
+    <ClInclude Include="..\Siv3D\include\Siv3D\UI1\UIPanel.hpp" />
     <ClInclude Include="..\Siv3D\include\Siv3D\Uncopyable.hpp" />
     <ClInclude Include="..\Siv3D\include\Siv3D\UnderlineStyle.hpp" />
     <ClInclude Include="..\Siv3D\include\Siv3D\Unicode.hpp" />
@@ -2508,6 +2509,7 @@
     <ClCompile Include="..\Siv3D\src\Siv3D\UI1\SivUICanvas.cpp" />
     <ClCompile Include="..\Siv3D\src\Siv3D\UI1\SivUIContainer.cpp" />
     <ClCompile Include="..\Siv3D\src\Siv3D\UI1\SivUIElement.cpp" />
+    <ClCompile Include="..\Siv3D\src\Siv3D\UI1\SivUIPanel.cpp" />
     <ClCompile Include="..\Siv3D\src\Siv3D\UI1\UICanvasDetail.cpp" />
     <ClCompile Include="..\Siv3D\src\Siv3D\UnicodeConverter\SivUnicodeConverter.cpp" />
     <ClCompile Include="..\Siv3D\src\Siv3D\Unicode\SivUnicode.cpp" />

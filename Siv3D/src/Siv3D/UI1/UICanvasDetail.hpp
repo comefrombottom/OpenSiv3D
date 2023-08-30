@@ -50,7 +50,7 @@ namespace s3d
 			[[nodiscard]]
 			auto updatableView() const noexcept
 			{
-				return FilterReverseView{ containers(), IsContainerEnabled };
+				return FilterReverseView{ containers(), ShouldUpdate };
 			}
 
 			/// @brief 描画可能な UI コンテナのビューを返します。
@@ -58,20 +58,20 @@ namespace s3d
 			[[nodiscard]]
 			auto drawableView() const noexcept
 			{
-				return FilterView{ containers(), IsContainerShown };
+				return FilterView{ containers(), ShouldDraw };
 			}
 
 			[[nodiscard]]
 			bool hasContainer(UIContainerNameView name) const noexcept;
 
 			[[nodiscard]]
-			UIContainer* find(UIContainerNameView name) const noexcept;
+			UIContainer* findContainer(UIContainerNameView name) const noexcept;
 
 			[[nodiscard]]
-			UIContainer* findTopmost() const noexcept;
+			UIContainer* findTopmostContainer() const noexcept;
 
 			[[nodiscard]]
-			UIContainer* findBottommost() const noexcept;
+			UIContainer* findBottommostContainer() const noexcept;
 
 			//[[nodiscard]]
 			//Array<UIContainer*> findByAttribute(StringView attribute, StringView value) const;
@@ -97,9 +97,9 @@ namespace s3d
 
 			HashTable<UIContainerName, std::shared_ptr<UIContainer>> m_table;
 
-			static bool IsContainerEnabled(const std::shared_ptr<UIContainer>& c) noexcept;
+			static bool ShouldUpdate(const std::shared_ptr<UIContainer>& c) noexcept;
 
-			static bool IsContainerShown(const std::shared_ptr<UIContainer>& c) noexcept;
+			static bool ShouldDraw(const std::shared_ptr<UIContainer>& c) noexcept;
 		};
 	}
 }
