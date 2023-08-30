@@ -10,50 +10,71 @@
 //-----------------------------------------------
 
 # include <Siv3D/Math.hpp>
-# include <Siv3D/UI1/UIPanel.hpp>
+# include <Siv3D/Cursor.hpp>
+# include <Siv3D/Polygon.hpp>
+# include <Siv3D/SimpleGUI.hpp>
+# include <Siv3D/Font.hpp>
+# include <Siv3D/DrawableText.hpp>
+# include <Siv3D/UI1/UIWindow.hpp>
+# include "UICanvasDetail.hpp"
 
 namespace s3d
 {
 	namespace UI1
 	{
-		UIPanel::Style UIPanel::Style::Default()
+		UIWindow::Style UIWindow::Style::Default()
 		{
-			return UIPanel::Style{};
+			return UIWindow::Style{};
 		}
 
-		UIPanel::UIPanel(const UIContainerNameView name, const RectF& rect, const Style& style)
+		UIWindow::UIWindow(const UIContainerNameView name, const StringView title, const RectF& rect, const Style& style)
 			: UIContainer{ name }
 			, m_style{ style }
-			, m_rect{ rect } {}
+			, m_rect{ rect }
+			, m_title{ title } {}
 
-		StringView UIPanel::type() const noexcept
+		StringView UIWindow::type() const noexcept
 		{
-			return U"UIPanel";
+			return U"UIWindow";
 		}
 
-		SizeF UIPanel::getSize() const noexcept
+		SizeF UIWindow::getSize() const noexcept
 		{
 			return m_rect.size;
 		}
 
-		RectF UIPanel::getBounds() const noexcept
+		RectF UIWindow::getBounds() const noexcept
 		{
 			return m_rect;
 		}
 
-		bool UIPanel::onUpdate(const bool cursorCapturable)
+		bool UIWindow::onUpdate(const bool cursorCapturable)
 		{
+			if (auto pCanvas = m_pCanvas.lock())
+			{
+				m_active = (pCanvas->findTopmostContainer() == this);
+			}
+			else
+			{
+				m_active = true;
+			}
+
+			if (m_dragging)
+			{
+				setPos(getBounds().pos + Cursor::DeltaF());
+			}
+
 			return onUpdateHelper(cursorCapturable, getShape().mouseOver(), m_style.padding, [this](SizeF size){ setSize(size); });
 		}
 
-		void UIPanel::onDraw() const
+		void UIWindow::onDraw() const
 		{
 			drawBackground();
 
 			onDrawHelper(m_style.padding);
 		}
 
-		void UIPanel::onDrawOverlay() const
+		void UIWindow::onDrawOverlay() const
 		{
 			onDrawOverlayHelper(m_style.padding);
 
@@ -67,34 +88,52 @@ namespace s3d
 			}
 		}
 
-		void UIPanel::onDrawDebug() const
+		void UIWindow::onDrawDebug() const
 		{
 			drawDebugBackground();
 
 			onDrawDebugHelper(m_style.padding);
 		}
 
-		void UIPanel::setPos(const Vec2& pos) noexcept
+		void UIWindow::setPos(const Vec2& pos) noexcept
 		{
 			m_rect.pos = pos;
 		}
 
-		void UIPanel::setSize(const SizeF& size) noexcept
+		void UIWindow::setSize(const SizeF& size) noexcept
 		{
 			m_rect.size = size;
 		}
 
-		std::shared_ptr<UIPanel> UIPanel::Create(const UIContainerNameView name, const RectF& rect, const Style& style)
+		std::shared_ptr<UIWindow> UIWindow::Create(const UIContainerNameView name, const StringView title, const RectF& rect, const Style& style)
 		{
-			return std::make_shared<UIPanel>(name, rect, style);
+			return std::make_shared<UIWindow>(name, title, rect, style);
 		}
 
-		RoundRect UIPanel::getShape() const noexcept
+		void UIWindow::onPressed()
+		{
+			if (getTitleBarRect().mouseOver())
+			{
+				m_dragging = true;
+			}
+		}
+
+		void UIWindow::onReleased()
+		{
+			m_dragging = false;
+		}
+
+		RoundRect UIWindow::getShape() const noexcept
 		{
 			return{ m_rect, m_style.borderRadius };
 		}
 
-		void UIPanel::drawBackground() const
+		RectF UIWindow::getTitleBarRect() const noexcept
+		{
+			return{ m_rect.pos, m_rect.w, m_style.titleBarHeight };
+		}
+
+		void UIWindow::drawBackground() const
 		{
 			const RoundRect shape = getShape();
 
@@ -110,11 +149,22 @@ namespace s3d
 				shape.draw(*m_style.backgroundColor);
 			}
 
+			const RectF titleBarRect = getTitleBarRect();
+			titleBarRect.rounded(m_style.borderRadius, m_style.borderRadius, 0, 0).draw(m_active ? m_style.titleBarActiveColor : m_style.titleBarInactiveColor);
+			SimpleGUI::GetFont()(m_title).drawAt(18, titleBarRect.center().movedBy(0, -1), ColorF{ 0.11 });
+
 			if (0.0 < m_style.borderThickness)
 			{
-				if (isEnabled() && m_style.borderColor)
+				if (isEnabled())
 				{
-					shape.drawFrame(0.0, m_style.borderThickness, *m_style.borderColor);
+					if (m_active && m_style.activeBorderColor)
+					{
+						shape.drawFrame(0.0, m_style.borderThickness, *m_style.activeBorderColor);
+					}
+					else if ((not m_active) && m_style.inactiveBorderColor)
+					{
+						shape.drawFrame(0.0, m_style.borderThickness, *m_style.inactiveBorderColor);
+					}
 				}
 				else if ((not isEnabled()) && m_style.disabledBorderColor)
 				{
@@ -123,7 +173,7 @@ namespace s3d
 			}
 		}
 
-		void UIPanel::drawDebugBackground() const
+		void UIWindow::drawDebugBackground() const
 		{
 			const RectF rect = getBounds();
 

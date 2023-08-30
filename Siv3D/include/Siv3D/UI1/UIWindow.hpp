@@ -21,45 +21,56 @@ namespace s3d
 {
 	inline namespace UI1
 	{
-		/// @brief UI 要素を配置するパネル
-		class UIPanel : public UIContainer
+		/// @brief UI 要素を配置するウィンドウ
+		class UIWindow : public UIContainer
 		{
 		public:
 
 			struct Style
 			{
 				/// @brief 枠の太さ（ピクセル）
-				double borderThickness = 0.0;
+				double borderThickness = 1.0;
 
 				/// @brief パネルの角の半径（ピクセル）
-				double borderRadius = 0.0;
+				double borderRadius = 4.0;
 
 				/// @brief 背景色 | Background color
-				Optional<ColorF> backgroundColor = ColorF{ 0.92 };
+				Optional<ColorF> backgroundColor = ColorF{ 1.0 };
 
 				/// @brief 無効時のオーバーレイ色 | Disabled overlay color
-				Optional<ColorF> disabledOverlayColor = ColorF{ 0.98, 0.75 };
+				Optional<ColorF> disabledOverlayColor = ColorF{ 0.98, 0.7 };
 
-				/// @brief 枠の色 | Border color
-				Optional<ColorF> borderColor = ColorF{ 0.5 };
+				/// @brief アクティブ時の枠の色 | Active border color
+				Optional<ColorF> activeBorderColor = ColorF{ 0.68 };
+
+				/// @brief 非アクティブ時の枠の色 | Inactive border color
+				Optional<ColorF> inactiveBorderColor = ColorF{ 0.72 };
 
 				/// @brief 無効時の枠の色 | Disabled border color
 				Optional<ColorF> disabledBorderColor = ColorF{ 0.75 };
 
 				/// @brief 影の設定 | Box shadow
-				Optional<BoxShadow> boxShadow;
+				Optional<BoxShadow> boxShadow = BoxShadow{ Vec2{ 2, 2 }, 24, 1 };
 
-				Padding padding = { 20, 20 };
+				Padding padding = { 10, 20 };
+
+				double titleBarHeight = 36.0;
+
+				/// @brief アクティブ時のタイトルバーの色
+				ColorF titleBarActiveColor = ColorF{ 0.82, 0.85, 0.93 };
+
+				/// @brief 非アクティブ時のタイトルバーの色
+				ColorF titleBarInactiveColor = ColorF{ 0.91 };
 
 				[[nodiscard]]
 				static Style Default();
 			};
 
 			SIV3D_NODISCARD_CXX20
-			UIPanel() = default;
+			UIWindow() = default;
 
 			SIV3D_NODISCARD_CXX20
-			explicit UIPanel(UIContainerNameView name, const RectF& rect, const Style& style = Style::Default());
+			explicit UIWindow(UIContainerNameView name, StringView title, const RectF& rect, const Style& style = Style::Default());
 
 			[[nodiscard]]
 			StringView type() const noexcept override;
@@ -82,30 +93,43 @@ namespace s3d
 
 			void setSize(const SizeF& size) noexcept;
 
-			/// @brief UI パネルを作成します。
+			/// @brief UI ウィンドウを作成します。
 			/// @param name UI コンテナとしての一意な名前
-			/// @param rect パネルの初期領域
+			/// @param rect ウィンドウの初期領域
 			/// @param style スタイル
-			/// @return 作成されたパネル
+			/// @return 作成されたウィンドウ
 			[[nodiscard]]
-			static std::shared_ptr<UIPanel> Create(UIContainerNameView name, const RectF& rect, const Style& style = Style::Default());
+			static std::shared_ptr<UIWindow> Create(UIContainerNameView name, StringView title, const RectF& rect, const Style& style = Style::Default());
 
 		protected:
 
-			[[nodiscard]]
-			RoundRect getShape() const noexcept;
+			void onPressed() override;
 
-			[[nodiscard]]
-			void drawBackground() const;
-
-			[[nodiscard]]
-			void drawDebugBackground() const;
+			void onReleased() override;
 
 		private:
 
 			Style m_style;
 
 			RectF m_rect = RectF::Empty();
+
+			String m_title;
+
+			bool m_active = false;
+
+			bool m_dragging = false;
+
+			[[nodiscard]]
+			RoundRect getShape() const noexcept;
+
+			[[nodiscard]]
+			RectF getTitleBarRect() const noexcept;
+
+			[[nodiscard]]
+			void drawBackground() const;
+
+			[[nodiscard]]
+			void drawDebugBackground() const;
 		};
 	}
 }

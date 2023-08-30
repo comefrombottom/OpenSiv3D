@@ -1718,6 +1718,8 @@
 
 # include <Siv3D/UI1/UIPanel.hpp>
 
+# include <Siv3D/UI1/UIWindow.hpp>
+
 # include <Siv3D/UI1/ColorRect.hpp>
 
 //////////////////////////////////////////////////

@@ -134,7 +134,7 @@ namespace s3d
 
 		String UIContainer::dumpDebugInfo() const
 		{
-			String result = U"{} ({}) {} "_fmt(m_name, type(), getBounds());
+			String result = U"{} ({}) {:.1f} "_fmt(m_name, type(), getBounds());
 
 			if (shouldUpdate())
 			{
