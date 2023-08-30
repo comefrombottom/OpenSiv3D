@@ -114,10 +114,6 @@ namespace s3d
 			return false;
 		}
 
-		void UIElement::onDraw() const {}
-
-		void UIElement::onDrawOverlay() const {}
-
 		void UIElement::onDrawDebug() const
 		{
 			const RectF rect{ getSize() };
@@ -141,6 +137,49 @@ namespace s3d
 				Circle{ rect.tr(), 10 }.drawFrame(3, 0, Palette::Red);
 				Circle{ rect.br(), 10 }.drawFrame(3, 0, Palette::Red);
 				Circle{ rect.bl(), 10 }.drawFrame(3, 0, Palette::Red);
+			}
+		}
+
+		bool UIElement::updateState(const bool cursorCapturable, const bool shapeMouseOver)
+		{
+			const bool prevHasMouseCapture = m_hasMouseCapture;
+
+			if (isEnabled())
+			{
+				if ((not isHovered()) && ((cursorCapturable || prevHasMouseCapture) && shapeMouseOver))
+				{
+					setHovered(true);
+					onHovered();
+				}
+				else if (isHovered() && ((not (cursorCapturable || prevHasMouseCapture)) || (not shapeMouseOver)))
+				{
+					setHovered(false);
+					onUnhovered();
+				}
+
+				if ((cursorCapturable && shapeMouseOver) && MouseL.down())
+				{
+					setMouseCapture(true);
+					onPressed();
+				}
+				else if (prevHasMouseCapture && (not MouseL.pressed()))
+				{
+					setMouseCapture(false);
+					onReleased();
+
+					if (shapeMouseOver)
+					{
+						onClicked();
+					}
+
+					return true;
+				}
+
+				return isHovered();
+			}
+			else
+			{
+				return (cursorCapturable && shapeMouseOver);
 			}
 		}
 	}

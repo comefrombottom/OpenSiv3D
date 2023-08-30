@@ -10,6 +10,7 @@
 //-----------------------------------------------
 
 # include <Siv3D/UI1/UIPanel.hpp>
+
 namespace s3d
 {
 	namespace UI1
@@ -39,32 +40,37 @@ namespace s3d
 			return m_rect;
 		}
 
-		bool UIPanel::onUpdate(bool cursorCapturable)
+		bool UIPanel::onUpdate(const bool cursorCapturable)
 		{
-			return(false);
+			return onUpdateHelper(cursorCapturable, getShape().mouseOver(), m_style.padding, [this](SizeF size){ setSize(size); });
 		}
 
 		void UIPanel::onDraw() const
 		{
 			drawBackground();
 
-			// 子要素を描画する
-			{
-
-			}
+			onDrawHelper(m_style.padding);
 		}
 
 		void UIPanel::onDrawOverlay() const
 		{
-			// 子要素を描画する
-			{
+			onDrawOverlayHelper(m_style.padding);
 
+			// 無効状態の場合、全体にオーバーレイを描画する
+			if (not isEnabled())
+			{
+				if (m_style.disabledOverlayColor)
+				{
+					getShape().draw(*m_style.disabledOverlayColor);
+				}
 			}
 		}
 
 		void UIPanel::onDrawDebug() const
 		{
 			drawDebugBackground();
+
+			onDrawDebugHelper(m_style.padding);
 		}
 
 		void UIPanel::setPos(const Vec2& pos) noexcept

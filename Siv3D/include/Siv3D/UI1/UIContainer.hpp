@@ -99,6 +99,15 @@ namespace s3d
 
 			std::weak_ptr<UICanvas::UICanvasDetail> m_pCanvas;
 
+			[[nodiscard]]
+			bool onUpdateHelper(bool cursorCapturable, bool shapeMouseOver, const Padding& padding, const std::function<void(SizeF)>& resizeFunction);
+
+			void onDrawHelper(const Padding& padding) const;
+
+			void onDrawOverlayHelper(const Padding& padding) const;
+
+			void onDrawDebugHelper(const Padding& padding) const;
+
 		private:
 
 			UIContainerName m_name;

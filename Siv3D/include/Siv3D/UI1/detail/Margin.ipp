@@ -39,6 +39,46 @@ namespace s3d
 			, bottom{ _bottom }
 			, left{ _left } {}
 
+		inline constexpr Vec2 Margin::topLeft() const noexcept
+		{
+			return{ left, top };
+		}
+
+		inline constexpr Vec2 Margin::topRight() const noexcept
+		{
+			return{ right, top };
+		}
+
+		inline constexpr Vec2 Margin::bottomRight() const noexcept
+		{
+			return{ right, bottom };
+		}
+
+		inline constexpr Vec2 Margin::bottomLeft() const noexcept
+		{
+			return{ left, bottom };
+		}
+
+		inline constexpr double Margin::totalWidth() const noexcept
+		{
+			return (left + right);
+		}
+
+		inline constexpr double Margin::totalHeight() const noexcept
+		{
+			return (top + bottom);
+		}
+
+		inline constexpr Margin Margin::lerp(const Margin& other, const double f) const noexcept
+		{
+			return{
+				Math::Lerp(top, other.top, f),
+				Math::Lerp(right, other.right, f),
+				Math::Lerp(bottom, other.bottom, f),
+				Math::Lerp(left, other.left, f)
+			};
+		}
+
 		inline constexpr Margin Margin::Zero() noexcept
 		{
 			return{ 0, 0, 0, 0 };

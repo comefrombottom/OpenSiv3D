@@ -753,6 +753,7 @@
     <ClInclude Include="..\Siv3D\include\Siv3D\Typeface.hpp" />
     <ClInclude Include="..\Siv3D\include\Siv3D\Types.hpp" />
     <ClInclude Include="..\Siv3D\include\Siv3D\UI1\BoxShadow.hpp" />
+    <ClInclude Include="..\Siv3D\include\Siv3D\UI1\ColorRect.hpp" />
     <ClInclude Include="..\Siv3D\include\Siv3D\UI1\detail\Margin.ipp" />
     <ClInclude Include="..\Siv3D\include\Siv3D\UI1\detail\Padding.ipp" />
     <ClInclude Include="..\Siv3D\include\Siv3D\UI1\Margin.hpp" />
@@ -2506,6 +2507,7 @@
     <ClCompile Include="..\Siv3D\src\Siv3D\Triangle\SivTriangle.cpp" />
     <ClCompile Include="..\Siv3D\src\Siv3D\Troubleshooting\Troubleshooting.cpp" />
     <ClCompile Include="..\Siv3D\src\Siv3D\Twitter\SivTwitter.cpp" />
+    <ClCompile Include="..\Siv3D\src\Siv3D\UI1\SivColorRect.cpp" />
     <ClCompile Include="..\Siv3D\src\Siv3D\UI1\SivUICanvas.cpp" />
     <ClCompile Include="..\Siv3D\src\Siv3D\UI1\SivUIContainer.cpp" />
     <ClCompile Include="..\Siv3D\src\Siv3D\UI1\SivUIElement.cpp" />

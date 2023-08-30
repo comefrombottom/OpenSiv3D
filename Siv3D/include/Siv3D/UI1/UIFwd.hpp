@@ -19,12 +19,20 @@ namespace s3d
 		struct Padding;
 		struct Margin;
 		struct BoxShadow;
+	
 		class UICanvas;
+		
+		using UIElementName = String;
+		using UIElementNameView = StringView;
 		class UIElement;
+
 		using UIContainerName = String;
 		using UIContainerNameView = StringView;
 		class UIContainer;
+		
 		class UIPanel;
 		class UIWindow;
+
+		class ColorRect;
 	}
 }

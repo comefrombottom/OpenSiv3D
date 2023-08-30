@@ -11,6 +11,7 @@
 
 # pragma once
 # include "../Common.hpp"
+# include "../Interpolation.hpp"
 
 namespace s3d
 {
@@ -57,6 +58,35 @@ namespace s3d
 			/// @param _left 左辺のマージン（ピクセル） | The left margin in pixels
 			SIV3D_NODISCARD_CXX20
 			constexpr Margin(double _top, double _right, double _bottom, double _left) noexcept;
+
+			[[nodiscard]]
+			constexpr Vec2 topLeft() const noexcept;
+
+			[[nodiscard]]
+			constexpr Vec2 topRight() const noexcept;
+
+			[[nodiscard]]
+			constexpr Vec2 bottomRight() const noexcept;
+
+			[[nodiscard]]
+			constexpr Vec2 bottomLeft() const noexcept;
+
+			/// @brief 左辺と右辺のマージンの合計を返します。 | Returns the sum of the left and right margin.
+			/// @return 左辺と右辺のマージンの合計 | The sum of the left and right margin
+			[[nodiscard]]
+			constexpr double totalWidth() const noexcept;
+
+			/// @brief 上辺と下辺のマージンの合計を返します。 | Returns the sum of the top and bottom margin.
+			/// @return 上辺と下辺のマージンの合計 | The sum of the top and bottom margin
+			[[nodiscard]]
+			constexpr double totalHeight() const noexcept;
+
+			/// @brief 2 つのマージンを線形補間します。 | Performs a linear interpolation between two margins.
+			/// @param other 他方のマージン | The other margin
+			/// @param f 補間係数 | The interpolation coefficient
+			/// @return 補間結果 | The result of interpolation
+			[[nodiscard]]
+			constexpr Margin lerp(const Margin& other, double f) const noexcept;
 
 			[[nodiscard]]
 			static constexpr Margin Zero() noexcept;

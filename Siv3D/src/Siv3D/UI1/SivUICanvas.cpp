@@ -37,7 +37,7 @@ namespace s3d
 
 		UIContainer& UICanvas::addContainer(const std::shared_ptr<UIContainer>& container)
 		{
-			return pImpl->addContainer(container);
+			return pImpl->addContainer(container)._setRoot(pImpl);
 		}
 
 		void UICanvas::removeContainer(const UIContainerNameView name)
