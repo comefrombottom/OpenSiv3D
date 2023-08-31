@@ -64,19 +64,19 @@ namespace s3d
 				setPos(getBounds().pos + Cursor::DeltaF());
 			}
 
-			return onUpdateHelper(cursorCapturable, getShape().mouseOver(), m_style.padding, [this](SizeF size){ setSize(size); });
+			return onUpdateHelper(cursorCapturable, getShape().mouseOver(), m_style.titleBarHeight, m_style.padding, [this](SizeF size) { setSize(size + SizeF{ 0, m_style.titleBarHeight }); });
 		}
 
 		void UIWindow::onDraw() const
 		{
 			drawBackground();
 
-			onDrawHelper(m_style.padding);
+			onDrawHelper(m_style.titleBarHeight, m_style.padding);
 		}
 
 		void UIWindow::onDrawOverlay() const
 		{
-			onDrawOverlayHelper(m_style.padding);
+			onDrawOverlayHelper(m_style.titleBarHeight, m_style.padding);
 
 			// 無効状態の場合、全体にオーバーレイを描画する
 			if (not isEnabled())
@@ -92,7 +92,7 @@ namespace s3d
 		{
 			drawDebugBackground();
 
-			onDrawDebugHelper(m_style.padding);
+			onDrawDebugHelper(m_style.titleBarHeight, m_style.padding);
 		}
 
 		void UIWindow::setPos(const Vec2& pos) noexcept

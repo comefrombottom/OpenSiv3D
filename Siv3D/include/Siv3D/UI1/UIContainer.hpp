@@ -12,6 +12,8 @@
 # pragma once
 # include "../Common.hpp"
 # include "../String.hpp"
+# include "../HashTable.hpp"
+# include "../Demangle.hpp"
 # include "UIElement.hpp"
 # include "UICanvas.hpp"
 
@@ -70,16 +72,45 @@ namespace s3d
 			[[nodiscard]]
 			bool isHidden() const noexcept;
 
-			/// @brief UI コンテナが持つ UI 要素の数を返します。
-			/// @return UI コンテナが持つ UI 要素の数
-			[[nodiscard]]
-			size_t num_elements() const noexcept;
-
 			/// @brief UI コンテナに UI 要素を追加します。
 			/// @param name 追加する UI 要素の一意な名前
 			/// @param element 追加する UI 要素
 			/// @return 追加した UI 要素への参照
 			virtual UIContainer& add(UIElementNameView name, const std::shared_ptr<UIElement>& element);
+
+			/// @brief UI コンテナが持つ UI 要素の数を返します。
+			/// @return UI コンテナが持つ UI 要素の数
+			[[nodiscard]]
+			size_t num_elements() const noexcept;
+
+			/// @brief UI コンテナが持つ UI 要素をすべて削除します。
+			void clear();
+
+			bool hasElement(UIElementNameView name) const noexcept;
+
+			template <class UIElementType, std::enable_if_t<std::is_base_of_v<UIElement, UIElementType>>* = nullptr>
+			[[nodiscard]]
+			bool is(size_t index) const noexcept;
+
+			template <class UIElementType, std::enable_if_t<std::is_base_of_v<UIElement, UIElementType>>* = nullptr>
+			[[nodiscard]]
+			bool is(UIElementNameView name) const noexcept;
+
+			template <class UIElementType, std::enable_if_t<std::is_base_of_v<UIElement, UIElementType>>* = nullptr>
+			[[nodiscard]]
+			const UIElementType& get(size_t index) const;
+
+			template <class UIElementType, std::enable_if_t<std::is_base_of_v<UIElement, UIElementType>>* = nullptr>
+			[[nodiscard]]
+			UIElementType& get(size_t index);
+
+			template <class UIElementType, std::enable_if_t<std::is_base_of_v<UIElement, UIElementType>>* = nullptr>
+			[[nodiscard]]
+			const UIElementType& get(UIElementNameView name) const;
+
+			template <class UIElementType, std::enable_if_t<std::is_base_of_v<UIElement, UIElementType>>* = nullptr>
+			[[nodiscard]]
+			UIElementType& get(UIElementNameView name);
 
 			UIContainer& _setRoot(const std::shared_ptr<UICanvas::UICanvasDetail>& pCanvas);
 
@@ -97,16 +128,18 @@ namespace s3d
 
 			Array<Element> m_elements;
 
+			HashTable<UIElementName, std::shared_ptr<UIElement>> m_table;
+
 			std::weak_ptr<UICanvas::UICanvasDetail> m_pCanvas;
 
 			[[nodiscard]]
-			bool onUpdateHelper(bool cursorCapturable, bool shapeMouseOver, const Padding& padding, const std::function<void(SizeF)>& resizeFunction);
+			bool onUpdateHelper(bool cursorCapturable, bool shapeMouseOver, double yOffset, const Padding& padding, const std::function<void(SizeF)>& resizeFunction);
 
-			void onDrawHelper(const Padding& padding) const;
+			void onDrawHelper(double yOffset, const Padding& padding) const;
 
-			void onDrawOverlayHelper(const Padding& padding) const;
+			void onDrawOverlayHelper(double yOffset, const Padding& padding) const;
 
-			void onDrawDebugHelper(const Padding& padding) const;
+			void onDrawDebugHelper(double yOffset, const Padding& padding) const;
 
 		private:
 
@@ -116,3 +149,5 @@ namespace s3d
 		};
 	}
 }
+
+# include "detail/UIContainer.ipp"

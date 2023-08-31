@@ -27,21 +27,33 @@ namespace s3d
 			ColorRect() = default;
 
 			SIV3D_NODISCARD_CXX20
-			explicit ColorRect(const SizeF& size, const ColorF& color = ColorF{ 1.0 });
+			explicit ColorRect(const SizeF& size, const ColorF& color = ColorF{ 1.0 }, const Margin& margin = Margin{ 0 });
 
 			[[nodiscard]]
-			static std::shared_ptr<ColorRect> Create(const SizeF& size, const ColorF& color = ColorF{ 1.0 });
+			static std::shared_ptr<ColorRect> Create(const SizeF& size, const ColorF& color = ColorF{ 1.0 }, const Margin& margin = Margin{ 0 });
+	
+			[[nodiscard]]
+			SizeF getSize() const noexcept override;
+
+			void setSize(const SizeF& size) noexcept;
+
+			[[nodiscard]]
+			const ColorF& getColor() const noexcept;
+
+			void setColor(const ColorF& color) noexcept;
 
 		private:
 
 			[[nodiscard]]
-			SizeF getSize() const noexcept override;
+			Margin getMargin() const noexcept override;
 
 			void onDraw() const override;
 
 			SizeF m_size = { 0, 0 };
 
 			ColorF m_color = ColorF{ 1.0 };
+
+			Margin m_margin = Margin{ 0, 0, 0, 0 };
 		};
 	}
 }

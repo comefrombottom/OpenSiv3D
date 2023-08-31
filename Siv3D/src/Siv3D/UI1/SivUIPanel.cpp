@@ -43,19 +43,19 @@ namespace s3d
 
 		bool UIPanel::onUpdate(const bool cursorCapturable)
 		{
-			return onUpdateHelper(cursorCapturable, getShape().mouseOver(), m_style.padding, [this](SizeF size){ setSize(size); });
+			return onUpdateHelper(cursorCapturable, getShape().mouseOver(), 0.0, m_style.padding, [this](SizeF size){ setSize(size); });
 		}
 
 		void UIPanel::onDraw() const
 		{
 			drawBackground();
 
-			onDrawHelper(m_style.padding);
+			onDrawHelper(0.0, m_style.padding);
 		}
 
 		void UIPanel::onDrawOverlay() const
 		{
-			onDrawOverlayHelper(m_style.padding);
+			onDrawOverlayHelper(0.0, m_style.padding);
 
 			// 無効状態の場合、全体にオーバーレイを描画する
 			if (not isEnabled())
@@ -71,7 +71,7 @@ namespace s3d
 		{
 			drawDebugBackground();
 
-			onDrawDebugHelper(m_style.padding);
+			onDrawDebugHelper(0.0, m_style.padding);
 		}
 
 		void UIPanel::setPos(const Vec2& pos) noexcept

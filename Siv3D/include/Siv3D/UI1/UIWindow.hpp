@@ -50,9 +50,9 @@ namespace s3d
 				Optional<ColorF> disabledBorderColor = ColorF{ 0.75 };
 
 				/// @brief 影の設定 | Box shadow
-				Optional<BoxShadow> boxShadow = BoxShadow{ Vec2{ 2, 2 }, 24, 1 };
+				Optional<BoxShadow> boxShadow = BoxShadow{ Vec2{ 0, 2 }, 24, 1, ColorF{ 0.0, 0.25 } };
 
-				Padding padding = { 10, 20 };
+				Padding padding = { 10, 10 };
 
 				double titleBarHeight = 36.0;
 

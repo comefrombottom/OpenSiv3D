@@ -247,8 +247,12 @@ namespace s3d
 
 			for (auto it = m_containers.rbegin(); it != m_containers.rend(); ++it)
 			{
+				if (result)
+				{
+					result.push_back(U'\n');
+				}
+
 				result += (*it)->dumpDebugInfo();
-				result.push_back(U'\n');
 			}
 
 			return result;

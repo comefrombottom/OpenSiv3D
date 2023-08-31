@@ -114,16 +114,28 @@ namespace s3d
 			return (not m_shown);
 		}
 
+		UIContainer& UIContainer::add(const UIElementNameView name, const std::shared_ptr<UIElement>& element)
+		{
+			element->setParentContainer(shared_from_this());
+			m_elements.push_back({ UIElementName{ name }, element });
+			m_table.emplace(name, element);
+			return *this;
+		}
+
 		size_t UIContainer::num_elements() const noexcept
 		{
 			return m_elements.size();
 		}
 
-		UIContainer& UIContainer::add(const UIElementNameView name, const std::shared_ptr<UIElement>& element)
+		void UIContainer::clear()
 		{
-			element->setParentContainer(shared_from_this());
-			m_elements.push_back({ UIElementName{ name }, element });
-			return *this;
+			m_elements.clear();
+			m_table.clear();
+		}
+
+		bool UIContainer::hasElement(const UIElementNameView name) const noexcept
+		{
+			return m_table.contains(name);
 		}
 
 		UIContainer& UIContainer::_setRoot(const std::shared_ptr<UICanvas::UICanvasDetail>& pCanvas)
@@ -159,14 +171,14 @@ namespace s3d
 			return result;
 		}
 
-		bool UIContainer::onUpdateHelper(bool cursorCapturable, const bool shapeMouseOver, const Padding& padding, const std::function<void(SizeF)>& resizeFunction)
+		bool UIContainer::onUpdateHelper(bool cursorCapturable, const bool shapeMouseOver, const double yOffset, const Padding& padding, const std::function<void(SizeF)>& resizeFunction)
 		{
 			bool childHasCursorCapture = false;
 			bool childHasMouseCapture = false;
 
 			// 子要素の配置を計算する
 			{
-				const Vec2 basePos = (getBounds().pos + padding.topLeft());
+				const Vec2 basePos = (getBounds().pos + Vec2{ 0, yOffset } + padding.topLeft());
 				const Transformer2D containerTransform{ Mat3x2::Translate(basePos), TransformCursor::Yes };
 
 				detail::LineInfo lineInfo
@@ -174,7 +186,7 @@ namespace s3d
 					.areaWidth = (getBounds().w - padding.totalWidth()),
 				};
 
-				double areaHeight = (getBounds().h - padding.totalHeight());
+				double areaHeight = (getBounds().h - padding.totalHeight() - yOffset);
 
 				for (const auto& element : m_elements)
 				{
@@ -201,8 +213,8 @@ namespace s3d
 
 					if (areaHeight < (penPosY + elementSize.y + bottomMargin))
 					{
-						const SizeF newSize{ getSize().x, (penPosY + elementSize.y + bottomMargin + padding.totalHeight()) };
-						resizeFunction(newSize);
+						areaHeight = (penPosY + elementSize.y + bottomMargin + padding.totalHeight());
+						resizeFunction(SizeF{ getSize().x, areaHeight });
 					}
 
 					{
@@ -224,9 +236,9 @@ namespace s3d
 			return (updateState((cursorCapturable || childHasCursorCapture || childHasMouseCapture), shapeMouseOver) || childHasCursorCapture);
 		}
 
-		void UIContainer::onDrawHelper(const Padding& padding) const
+		void UIContainer::onDrawHelper(const double yOffset, const Padding& padding) const
 		{
-			const Vec2 basePos = (getBounds().pos + padding.topLeft());
+			const Vec2 basePos = (getBounds().pos + Vec2{ 0, yOffset } + padding.topLeft());
 			const Transformer2D containerTransform{ Mat3x2::Translate(basePos), TransformCursor::Yes };
 
 			detail::LineInfo lineInfo
@@ -263,9 +275,9 @@ namespace s3d
 			}
 		}
 
-		void UIContainer::onDrawOverlayHelper(const Padding& padding) const
+		void UIContainer::onDrawOverlayHelper(const double yOffset, const Padding& padding) const
 		{
-			const Vec2 basePos = (getBounds().pos + padding.topLeft());
+			const Vec2 basePos = (getBounds().pos + Vec2{ 0, yOffset } + padding.topLeft());
 			const Transformer2D containerTransform{ Mat3x2::Translate(basePos), TransformCursor::Yes };
 
 			detail::LineInfo lineInfo
@@ -302,9 +314,9 @@ namespace s3d
 			}
 		}
 
-		void UIContainer::onDrawDebugHelper(const Padding& padding) const
+		void UIContainer::onDrawDebugHelper(const double yOffset, const Padding& padding) const
 		{
-			const Vec2 basePos = (getBounds().pos + padding.topLeft());
+			const Vec2 basePos = (getBounds().pos + Vec2{ 0, yOffset } + padding.topLeft());
 			const Transformer2D containerTransform{ Mat3x2::Translate(basePos), TransformCursor::Yes };
 
 			detail::LineInfo lineInfo
