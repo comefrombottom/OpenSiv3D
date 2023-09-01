@@ -93,6 +93,11 @@ namespace s3d
 
 			void setSize(const SizeF& size) noexcept;
 
+			void setTitle(StringView title);
+
+			[[nodiscard]]
+			const String& getTitle() const noexcept;
+
 			/// @brief UI ウィンドウを作成します。
 			/// @param name UI コンテナとしての一意な名前
 			/// @param rect ウィンドウの初期領域

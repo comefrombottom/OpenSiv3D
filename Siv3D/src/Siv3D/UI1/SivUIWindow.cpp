@@ -31,7 +31,9 @@ namespace s3d
 			: UIContainer{ name }
 			, m_style{ style }
 			, m_rect{ rect }
-			, m_title{ title } {}
+		{
+			setTitle(title);
+		}
 
 		StringView UIWindow::type() const noexcept
 		{
@@ -105,6 +107,16 @@ namespace s3d
 			m_rect.size = size;
 		}
 
+		void UIWindow::setTitle(const StringView title)
+		{
+			m_title = String{ title }.removed(U'\n');
+		}
+
+		const String& UIWindow::getTitle() const noexcept
+		{
+			return m_title;
+		}
+
 		std::shared_ptr<UIWindow> UIWindow::Create(const UIContainerNameView name, const StringView title, const RectF& rect, const Style& style)
 		{
 			return std::make_shared<UIWindow>(name, title, rect, style);
@@ -151,7 +163,20 @@ namespace s3d
 
 			const RectF titleBarRect = getTitleBarRect();
 			titleBarRect.rounded(m_style.borderRadius, m_style.borderRadius, 0, 0).draw(m_active ? m_style.titleBarActiveColor : m_style.titleBarInactiveColor);
-			SimpleGUI::GetFont()(m_title).drawAt(18, titleBarRect.center().movedBy(0, -1), ColorF{ 0.11 });
+			
+			{
+				constexpr double TitleMargin = 10.0;
+				const SizeF titleSize = SimpleGUI::GetFont()(18, m_title).region().size;
+
+				if (titleBarRect.w < (titleSize.x + (TitleMargin * 2)))
+				{
+					SimpleGUI::GetFont()(m_title).draw(18, titleBarRect.movedBy(TitleMargin, ((titleBarRect.h - titleSize.y) / 2)), ColorF{ 0.11 });
+				}
+				else
+				{
+					SimpleGUI::GetFont()(m_title).drawAt(18, titleBarRect.center().movedBy(0, -1), ColorF{ 0.11 });
+				}
+			}
 
 			if (0.0 < m_style.borderThickness)
 			{
