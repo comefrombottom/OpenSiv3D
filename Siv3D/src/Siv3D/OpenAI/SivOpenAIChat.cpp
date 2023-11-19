@@ -21,7 +21,7 @@ namespace s3d
 	namespace detail
 	{
 		// OpenAI のチャット API の URL
-		constexpr URLView ChatV1URL = U"https://api.openai.com/v1/chat/completions";
+		constexpr URLView ChatCompletionsEndpoint = U"https://api.openai.com/v1/chat/completions";
 
 		// チャット API に送信するリクエストを作成する
 		[[nodiscard]]
@@ -77,7 +77,7 @@ namespace s3d
 
 				MemoryWriter memoryWriter;
 
-				if (const auto response = SimpleHTTP::Post(detail::ChatV1URL, headers, data.data(), data.size(), memoryWriter))
+				if (const auto response = SimpleHTTP::Post(detail::ChatCompletionsEndpoint, headers, data.data(), data.size(), memoryWriter))
 				{
 					if (const HTTPStatusCode statusCode = response.getStatusCode();
 						statusCode == HTTPStatusCode::OK)
@@ -120,7 +120,7 @@ namespace s3d
 
 				const auto headers = detail::MakeHeaders(apiKey);
 
-				return SimpleHTTP::PostAsync(detail::ChatV1URL, headers, data.data(), data.size());
+				return SimpleHTTP::PostAsync(detail::ChatCompletionsEndpoint, headers, data.data(), data.size());
 			}
 
 			String GetContent(const JSON& response)

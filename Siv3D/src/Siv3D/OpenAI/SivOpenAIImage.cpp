@@ -11,7 +11,6 @@
 
 # include <Siv3D/OpenAI.hpp>
 # include <Siv3D/JSON.hpp>
-# include <Siv3D/Duration.hpp>
 # include <Siv3D/System.hpp>
 # include <Siv3D/SimpleHTTP.hpp>
 # include <Siv3D/MemoryViewReader.hpp>
@@ -22,10 +21,7 @@ namespace s3d
 	namespace detail
 	{
 		// OpenAI の画像生成 API の URL
-		constexpr URLView ImageGenerationV1URL = U"https://api.openai.com/v1/images/generations";
-
-		// 非同期タスクのポーリング間隔
-		constexpr Milliseconds TaskPollingInterval{ 5 };
+		constexpr URLView ImageGenerationsEndpoint = U"https://api.openai.com/v1/images/generations";
 
 		// 画像生成 API に送信するリクエストを作成する
 		[[nodiscard]]
@@ -59,7 +55,7 @@ namespace s3d
 			const auto headers = detail::MakeHeaders(apiKey);
 
 			// 画像生成 API に非同期でリクエストを送信する
-			AsyncHTTPTask task1 = SimpleHTTP::PostAsync(detail::ImageGenerationV1URL, headers, data.data(), data.size());
+			AsyncHTTPTask task1 = SimpleHTTP::PostAsync(detail::ImageGenerationsEndpoint, headers, data.data(), data.size());
 
 			// タスクが完了するまでポーリングする
 			while (not task1.isReady())

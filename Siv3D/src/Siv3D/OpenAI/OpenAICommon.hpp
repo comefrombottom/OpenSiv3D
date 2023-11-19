@@ -11,6 +11,7 @@
 
 # pragma once
 # include <Siv3D/String.hpp>
+# include <Siv3D/Duration.hpp>
 # include <Siv3D/HashTable.hpp>
 
 namespace s3d
@@ -20,5 +21,8 @@ namespace s3d
 		// HTTP ヘッダーを作成する
 		[[nodiscard]]
 		HashTable<String, String> MakeHeaders(StringView apiKey);
+
+		// 非同期タスクのポーリング間隔
+		constexpr Milliseconds TaskPollingInterval{ 5 };
 	}
 }

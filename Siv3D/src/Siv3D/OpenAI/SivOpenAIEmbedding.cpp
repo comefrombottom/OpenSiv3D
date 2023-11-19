@@ -22,7 +22,7 @@ namespace s3d
 	namespace detail
 	{
 		// OpenAI の Embeddings API の URL
-		constexpr URLView EmbeddingsV1URL = U"https://api.openai.com/v1/embeddings";
+		constexpr URLView EmbeddingsEndpoint = U"https://api.openai.com/v1/embeddings";
 
 		// Embeddings API に送信するリクエストを作成する
 		[[nodiscard]]
@@ -113,7 +113,7 @@ namespace s3d
 
 				MemoryWriter memoryWriter;
 
-				if (const auto response = SimpleHTTP::Post(detail::EmbeddingsV1URL, headers, data.data(), data.size(), memoryWriter))
+				if (const auto response = SimpleHTTP::Post(detail::EmbeddingsEndpoint, headers, data.data(), data.size(), memoryWriter))
 				{
 					if (const HTTPStatusCode statusCode = response.getStatusCode();
 						statusCode == HTTPStatusCode::OK)
@@ -151,7 +151,7 @@ namespace s3d
 
 				const auto headers = detail::MakeHeaders(apiKey);
 
-				return SimpleHTTP::PostAsync(detail::EmbeddingsV1URL, headers, data.data(), data.size());
+				return SimpleHTTP::PostAsync(detail::EmbeddingsEndpoint, headers, data.data(), data.size());
 			}
 
 			Array<float> GetVector(const JSON& response)
